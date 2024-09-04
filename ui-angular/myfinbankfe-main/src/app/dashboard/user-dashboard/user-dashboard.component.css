@@ -1,0 +1,89 @@
+
+
+.tabs {
+    margin-top: 20%;
+    display: flex;
+    margin-bottom: 1rem;
+    margin-left: 20%;
+  }
+  
+  .tabs button {
+    background-color: #f1f1f1;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-right: 5px;
+    border-radius: 5px;
+  }
+  
+  .tabs button.active {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .tab-content {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .tab-content form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .tab-content label {
+    margin-top: 10px;
+  }
+  
+  .tab-content input, .tab-content select {
+    padding: 8px;
+    margin-top: 5px;
+  }
+  
+  .tab-content button {
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .tab-content button:disabled {
+    background-color: #ccc;
+  }
+  
+  .tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .tabs button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .tabs button:hover {
+    background-color: #0056b3;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  table, th, td {
+    border: 1px solid black;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }

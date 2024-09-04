@@ -1,0 +1,93 @@
+<div class="admin-dashboard">
+    <div class="tabs">
+      <button (click)="activeTab = 'manage-customers'">Manage Customers</button>
+      <button (click)="activeTab = 'manage-accounts'">Manage Accounts</button>
+      <button (click)="activeTab = 'create-account'">Create Account</button>
+      <button (click)="logout()">Logout</button>
+    </div>
+  
+    <div *ngIf="activeTab === 'manage-customers'">
+        <h2>Manage Customers</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Username</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let customer of customers">
+              <td>{{ customer.id }}</td>
+              <td>{{ customer.username }}</td>
+              <td>{{ customer.active ? 'Active' : 'Inactive' }}</td>
+              <td>
+                <button (click)="activateCustomer(customer.id)" [disabled]="customer.active">Activate</button>
+                <button (click)="deactivateCustomer(customer.id)" [disabled]="!customer.active">Deactivate</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    <div *ngIf="activeTab === 'manage-accounts'">
+        <h2>Manage Accounts</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Account Number</th>
+                    <th>Balance</th>
+                    <th>User ID</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let account of accounts">
+                    <td>{{ account.accountNumber }}</td>
+                    <td>{{ account.balance | currency }}</td>
+                    <td>{{ account.user.id }}</td>
+                    <td>
+                    <button (click)="editAccount(account)">Edit</button>
+                    <button (click)="deleteAccount(account.accountNumber)">Delete</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+    </div>
+  
+    <div *ngIf="activeTab === 'create-account'">
+      <h2>Create Account</h2>
+      <form [formGroup]="createAccountForm" (ngSubmit)="onCreateAccount()">
+        <label for="accountNumber">Account Number:</label>
+        <input id="accountNumber" formControlName="accountNumber" type="text" />
+        
+        <label for="customerId">Customer ID:</label>
+        <input id="customerId" formControlName="customerId" type="text" />
+        
+        <label for="initialDeposit">Initial Deposit:</label>
+        <input id="initialDeposit" formControlName="initialDeposit" type="number" />
+        
+        <button type="submit" [disabled]="createAccountForm.invalid">Create Account</button>
+      </form>
+    </div>
+<!-- Edit Account Form -->
+<div *ngIf="editingAccountStatus">
+    <h2>Edit Account</h2>
+    <form [formGroup]="editAccountForm" (ngSubmit)="updateAccount()">
+      <label for="edit-accountNumber">Account Number:</label>
+      <input id="edit-accountNumber" formControlName="accountNumber" type="text" />
+
+      <label for="edit-customerId">Customer ID:</label>
+      <input id="edit-customerId" formControlName="customerId" type="text" />
+      
+      <label for="edit-balance">Balance:</label>
+      <input id="edit-balance" formControlName="balance" type="number" />
+      
+      <button type="submit" [disabled]="editAccountForm.invalid">Update Account</button>
+      <button type="button" (click)="cancelEdit()">Cancel</button>
+    </form>
+  </div>
+
+  </div>
+  

@@ -1,0 +1,96 @@
+
+  <div class="tabs">
+    <button (click)="selectTab('withdraw')" [class.active]="activeTab === 'withdraw'">Withdraw</button>
+    <button (click)="selectTab('deposit')" [class.active]="activeTab === 'deposit'">Deposit</button>
+    <button (click)="selectTab('transfer')" [class.active]="activeTab === 'transfer'">Transfer</button>
+    <button (click)="selectTab('investment')" [class.active]="activeTab === 'investment'">Investment</button>
+    <button (click)="selectTab('transaction-list')" [class.active]="activeTab === 'transaction-list'">Transactions</button>
+    <button (click)="selectTab('loan')" [class.active]="activeTab === 'loan'">Calculate Loan EMI</button>
+    <button (click)="logout()">Logout</button>
+  </div>
+
+  <div class="tab-content">
+    <div *ngIf="activeTab === 'withdraw'">
+      <form [formGroup]="withdrawForm" (ngSubmit)="onWithdraw()">
+        <label for="withdraw-amount">Amount:</label>
+        <input id="withdraw-amount" formControlName="amount" type="number" />
+        <button type="submit" [disabled]="withdrawForm.invalid">Withdraw</button>
+      </form>
+    </div>
+
+  <div *ngIf="activeTab === 'deposit'">
+    <form [formGroup]="depositForm" (ngSubmit)="onDeposit()">
+      <label for="deposit-amount">Amount:</label>
+      <input id="deposit-amount" formControlName="amount" type="number" />
+      <button type="submit" [disabled]="depositForm.invalid">Deposit</button>
+    </form>
+  </div>
+
+  <div *ngIf="activeTab === 'transfer'">
+    <form [formGroup]="transferForm" (ngSubmit)="onTransfer()">
+      <label for="transfer-amount">Amount:</label>
+      <input id="transfer-amount" formControlName="amount" type="number" />
+      
+      <label for="to-account">To Account:</label>
+      <input id="to-account" formControlName="toAccount" type="text" />
+      
+      <button type="submit" [disabled]="transferForm.invalid">Transfer</button>
+    </form>
+  </div>
+
+  <div *ngIf="activeTab === 'investment'">
+    <form [formGroup]="investmentForm" (ngSubmit)="onInvest()">
+      <label for="investment-amount">Amount:</label>
+      <input id="investment-amount" formControlName="amount" type="number" />
+      
+      <label for="investment-type">Type:</label>
+      <select id="investment-type" formControlName="type">
+        <option value="recurring">Recurring Deposit</option>
+        <option value="fixed">Fixed Deposit</option>
+        <option value="loan">Loan</option>
+      </select>
+      
+      <button type="submit" [disabled]="investmentForm.invalid">Invest</button>
+    </form>
+  </div>
+
+  <div *ngIf="activeTab === 'transaction-list'">
+    <h2>Transaction List</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Type</th>
+          <th>Date</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let transaction of transactions">
+          <td>{{ transaction.id }}</td>
+          <td>{{ transaction.type }}</td>
+          <td>{{ transaction.date }}</td>
+          <td>{{ transaction.amount }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="activeTab === 'loan'">
+    <form [formGroup]="loanForm" (ngSubmit)="calculateLoanEMI()">
+      <label for="loan-amount">Loan Amount:</label>
+      <input id="loan-amount" formControlName="amount" type="number" />
+      
+      <label for="interest-rate">Interest Rate:</label>
+      <input id="interest-rate" formControlName="interestRate" type="number" step="0.01" />
+      
+      <label for="months">Number of Months:</label>
+      <input id="months" formControlName="months" type="number" />
+      
+      <button type="submit" [disabled]="loanForm.invalid">Calculate</button>
+    </form>
+    <div *ngIf="emiResult !== null">
+      <p>Loan Interest: {{ emiResult | currency }}</p>
+    </div>
+  </div>
+</div>
