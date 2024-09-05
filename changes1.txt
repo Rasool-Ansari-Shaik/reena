@@ -1,0 +1,53 @@
+1. Register
+- If user already registered with same username and password, then registration will not happen.
+AuthService.java
+----------------
+public User register(User user) {
+            // check user already exists
+            Optional<User> userOptional = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+            if (userOptional.isPresent()) {
+                logger.error("User already exists.");
+                return null;
+            }
+
+2. Create Account
+- If User Account already exists with the same account number, then creation of duplicate account number will not happen
+
+AdminService.java
+--------------------
+public String createCustomerAccountUI(UserAccount userAccount) {
+// Check Account Number exists
+        Optional<Account> findAccount = accountRepository.findByAccountNumber(userAccount.getAccountNumber());
+        if (findAccount.isPresent()) {
+            logger.error("Account Number already exists");
+            return null;
+        }
+
+3. Edit Account
+- Only able to update balance. We won't update the customer id.
+AdminController.java
+--------------------
+@PutMapping("/accounts/update")
+    public ResponseEntity<UserAccount> updateAccount(@RequestBody UserAccount userAccount) {
+        // Update Customer Account
+        userAccount = adminService.updateCustomerAccountUI(userAccount);
+        return ResponseEntity.ok().body(userAccount);
+    }
+
+AdminService.java
+-----------------
+public UserAccount updateCustomerAccountUI(UserAccount userAccount) {
+        // find User Account
+        Optional<Account> findAccount = accountRepository.findByAccountNumber(userAccount.getAccountNumber());
+        if (findAccount.isPresent()) {
+            Account account = findAccount.get();
+            account.setBalance(userAccount.getBalance());
+            Account savedAccount = accountRepository.save(account);
+            logger.info("Account updated successfully");
+            return userAccount;
+
+        } else {
+            logger.error("Account not found");
+            return null;
+        }
+    }
